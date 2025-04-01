@@ -185,28 +185,49 @@
 
         // Modify the updateProgress function to increase speed
         function updateProgress() {
-            if (progress < 100) {
-                // Increase the progress increment for faster movement
-                progress += Math.random() * 20 + 10; // Increased from 10 to a range of 10-30
-                if (progress > 100) progress = 100;
-                
-                progressBar.style.width = progress + '%';
-                progressText.innerText = Math.floor(progress) + '%';
-
-                // Update loading message
-                if (progress > 10 && progress < 90) {
-                    const messageIndex = Math.floor((progress / 100) * loadingMessages.length);
-                    loadingMessage.innerText = loadingMessages[messageIndex];
-                }
-                
-                if (progress === 100) {
-                    setTimeout(revealPrank, 1000);
-                } else {
-                    // Decrease the timeout for faster updates
-                    setTimeout(updateProgress, Math.random() * 700 + 200); // Reduced from 500-1500ms to 200-500ms
-                }
-            }
+    if (progress < 100) {
+        // Fast start → Moderate middle → Quick finish
+        if (progress < 30) {
+            // Very fast start to create initial panic
+            progress += 12;
+        } else if (progress < 80) {
+            // Moderate middle section - still moving at a good pace
+            progress += 5;
+        } else {
+            // Quick finish for the punchline
+            progress += 8;
         }
+        
+        if (progress > 100) progress = 100;
+        
+        progressBar.style.width = progress + '%';
+        progressText.innerText = Math.floor(progress) + '%';
+
+        // Update loading message
+        if (progress > 10 && progress < 90) {
+            const messageIndex = Math.floor((progress / 100) * loadingMessages.length);
+            loadingMessage.innerText = loadingMessages[messageIndex];
+        }
+        
+        if (progress === 100) {
+            setTimeout(revealPrank, 1000);
+        } else {
+            let delay;
+            if (progress < 30) {
+                // Quick at the start
+                delay = 300;
+            } else if (progress < 80) {
+                // Moderate in the middle
+                delay = 600;
+            } else {
+                // Quick at the end
+                delay = 400;
+            }
+            
+            setTimeout(updateProgress, delay);
+        }
+    }
+}
 
         // Reveal the prank
         function revealPrank() {
