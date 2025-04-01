@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPORTANT: System Update Required</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            flex-grow: 1;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .update-bar {
+            width: 100%;
+            height: 30px;
+            background-color: #eee;
+            margin: 20px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        .update-progress {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0%;
+            border-radius: 15px;
+            transition: width 0.5s;
+        }
+        .update-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #333;
+            font-weight: bold;
+        }
+        .message {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .april-fools {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 24px;
+            color: #FF5722;
+            font-weight: bold;
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f2d74e;
+            opacity: 0;
+            top: 0;
+            animation: confetti-fall 5s ease-in-out infinite;
+        }
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        .button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0b7dda;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+        .loading-message {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CRITICAL SYSTEM UPDATE</h1>
+            <p>Your device has been flagged for an important security update.</p>
+        </div>
+        <div class="content">
+            <div class="message">
+                <p>We've detected that your system requires an immediate update to protect against recent vulnerabilities.</p>
+                <p>Please remain on this page while we apply critical patches.</p>
+                <p><strong>Do not close this window or your system may become compromised.</strong></p>
+            </div>
+            <div class="update-bar">
+                <div class="update-progress" id="progressBar"></div>
+                <div class="update-text" id="progressText">0%</div>
+            </div>
+            <div class="loading-message" id="loadingMessage">Initializing update sequence...</div>
+            <div class="april-fools" id="aprilFools">
+                <p>APRIL FOOLS!</p>
+                <p>Your system is fine. There's no update happening.</p>
+                <p>But your face right now? Priceless! 😂</p>
+                <button class="button" id="shareButton">Share this prank with others</button>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>© 2025 Totally Real Security Team | Not an actual system update</p>
+    </div>
+
+    <script>
+        // Fake loading messages
+        const loadingMessages = [
+            "Initializing update sequence...",
+            "Scanning system files...",
+            "Detecting vulnerabilities...",
+            "Downloading security patches...",
+            "Applying critical updates...",
+            "Optimizing system performance...",
+            "Removing potential threats...",
+            "Updating system registry...",
+            "Configuring security protocols...",
+            "Almost there..."
+        ];
+
+        // Progress bar animation
+        let progress = 0;
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const loadingMessage = document.getElementById('loadingMessage');
+        const aprilFools = document.getElementById('aprilFools');
+        const shareButton = document.getElementById('shareButton');
+
+        // Create confetti
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(confetti);
+            }
+        }
+
+        // Update progress
+        function updateProgress() {
+            if (progress < 100) {
+                progress += Math.random() * 10;
+                if (progress > 100) progress = 100;
+                
+                progressBar.style.width = progress + '%';
+                progressText.innerText = Math.floor(progress) + '%';
+
+                // Update loading message
+                if (progress > 10 && progress < 90) {
+                    const messageIndex = Math.floor((progress / 100) * loadingMessages.length);
+                    loadingMessage.innerText = loadingMessages[messageIndex];
+                }
+                
+                if (progress === 100) {
+                    setTimeout(revealPrank, 1000);
+                } else {
+                    setTimeout(updateProgress, Math.random() * 1000 + 500);
+                }
+            }
+        }
+
+        // Reveal the prank
+        function revealPrank() {
+            loadingMessage.style.display = 'none';
+            aprilFools.style.display = 'block';
+            createConfetti();
+        }
+
+        // Share functionality
+        shareButton.addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'IMPORTANT: System Update Required',
+                    text: 'Check out this important system update!',
+                    url: currentUrl
+                });
+            } else {
+                // Fallback - copy to clipboard
+                navigator.clipboard.writeText(currentUrl).then(function() {
+                    alert('Link copied to clipboard! Share it with your friends.');
+                }).catch(function() {
+                    alert('Could not copy link automatically. Please copy the URL from your address bar.');
+                });
+            }
+        });
+
+        // Start the update process after a short delay
+        setTimeout(updateProgress, 1500);
+    </script>
+</body>
+</html>
