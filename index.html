@@ -183,10 +183,11 @@
             }
         }
 
-        // Update progress
+        // Modify the updateProgress function to increase speed
         function updateProgress() {
             if (progress < 100) {
-                progress += Math.random() * 10;
+                // Increase the progress increment for faster movement
+                progress += Math.random() * 20 + 10; // Increased from 10 to a range of 10-30
                 if (progress > 100) progress = 100;
                 
                 progressBar.style.width = progress + '%';
@@ -201,7 +202,8 @@
                 if (progress === 100) {
                     setTimeout(revealPrank, 1000);
                 } else {
-                    setTimeout(updateProgress, Math.random() * 1000 + 500);
+                    // Decrease the timeout for faster updates
+                    setTimeout(updateProgress, Math.random() * 700 + 200); // Reduced from 500-1500ms to 200-500ms
                 }
             }
         }
@@ -213,22 +215,23 @@
             createConfetti();
         }
 
-        // Share functionality
+
+        // Share functionality with custom URL
         shareButton.addEventListener('click', function() {
-            const currentUrl = window.location.href;
+            const customUrl = "cognova-ai.onrender.com";
             
             if (navigator.share) {
                 navigator.share({
                     title: 'IMPORTANT: System Update Required',
                     text: 'Check out this important system update!',
-                    url: currentUrl
+                    url: customUrl
                 });
             } else {
                 // Fallback - copy to clipboard
-                navigator.clipboard.writeText(currentUrl).then(function() {
+                navigator.clipboard.writeText(customUrl).then(function() {
                     alert('Link copied to clipboard! Share it with your friends.');
                 }).catch(function() {
-                    alert('Could not copy link automatically. Please copy the URL from your address bar.');
+                    alert('Could not copy link automatically. Please use this URL to share: ' + customUrl);
                 });
             }
         });
